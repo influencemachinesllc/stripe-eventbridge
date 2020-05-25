@@ -5,7 +5,7 @@ frameworkVersion: ">=1.54.0 <2.0.0"
 provider:
   name: aws
   stage: dev
-  region: us-east-1
+  region: us-west-2
 
 resources:
   Resources:

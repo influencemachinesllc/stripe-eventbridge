@@ -8,7 +8,7 @@ provider:
   memorySize: 256
 
   stage: dev
-  region: us-east-1
+  region: us-west-2
   endpointType: EDGE
   logs:                # Enable CloudWatch logs
     restApi: true
@@ -39,5 +39,5 @@ functions:
           async: false
     environment:
       FAILURE_SNS: ${cf:stripe-eventbridge-deps-${self:provider.stage}.SNSTargetForFailedEvents}
-      EVENT_BRIDGE: "default"
-      ENDPOINT_SECRET: "${cf:stripe-eventbridge-deps-${self:provider.stage}.StripeWebhookSecretArn.Name}"
+      EVENT_BRIDGE: "stripe-${self:provider.stage}"
+      ENDPOINT_SECRET: "${cf:stripe-eventbridge-deps-${self:provider.stage}.StripeWebhookSecretArn}"
