@@ -4,14 +4,14 @@ frameworkVersion: ">=1.54.0 <2.0.0"
 
 provider:
   name: aws
-  runtime: nodejs10.x
+  runtime: nodejs12.x
   memorySize: 256
-
-  stage: dev
+  stage: ${opt:stage,'dev'}
   region: us-west-2
   endpointType: EDGE
   logs:                # Enable CloudWatch logs
     restApi: true
+    httpApi: true
   tracing:             # Enable X-Ray tracing
     apiGateway: true
 
@@ -33,11 +33,13 @@ functions:
   stripe-webhook:
     handler: handler.stripeWebhook
     events:
-      - http:
-          path: stripe/webhook
-          method: post
+      - httpApi:
+          path: /stripe/webhook
+          method: POST
           async: false
     environment:
       FAILURE_SNS: ${cf:stripe-eventbridge-deps-${self:provider.stage}.SNSTargetForFailedEvents}
       EVENT_BRIDGE: "stripe-${self:provider.stage}"
       ENDPOINT_SECRET: "${cf:stripe-eventbridge-deps-${self:provider.stage}.StripeWebhookSecretArn}"
+    memorySize: 192
+    timeout: 29
