@@ -1,0 +1,3 @@
+---
+stripe-webhook-endpoint-secret: prod/stripe/stripe-webhook-endpoint-secret
+stripe-event-failed-to-validate-sns-name: stripe-event-failed-to-validate-prod
