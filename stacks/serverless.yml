@@ -22,6 +22,12 @@ resources:
         Description: This is the signing secret that is used to validate that incoming webhook events are from Stripe
         Name: ${file(./config-${self:provider.stage}.yml):stripe-webhook-endpoint-secret}
 
+    StripeReplayQueue:
+      Type: "AWS::SQS::Queue"
+      Properties:
+        QueueName: ${file(./config-${self:provider.stage}.yml):stripe-replay-sqs-queue-name}
+
+
   Outputs:
     SNSTargetForFailedEvents:
       Value:
@@ -29,3 +35,5 @@ resources:
     StripeWebhookSecretArn:
       Value:
         Ref: StripeWebhookSecret
+    StripeReplayQueueArn:
+      Value: !GetAtt StripeReplayQueue.Arn
